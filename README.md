@@ -9,11 +9,10 @@ To run a demo Symfony app in a single container:
 
 ```bash
 $ cd docker-symfony2/.
+
 $ docker build --rm -t docker-symfony2/single-container env/single-container
 $ docker run -p 80:8080 -ti docker-symfony2/single-container bash
 $ open http://$(boot2docker ip)/
-$ docker rm -f $(docker ps -a -q)
-$ docker rmi -f docker-symfony2/single-container
 
 or
 $ bash env/run-on-singe-container.sh
@@ -22,7 +21,7 @@ $ bash env/run-on-singe-container.sh
 To run a demo Symfony app based on multiple containers:
 
 ```bash
-$ docker rm -f $(docker ps -a -q)
+$ cd docker-symfony2/.
 
 $ docker build --rm -t docker-symfony2/apache env/multiple-containers/apache
 $ docker run --name=apache \
@@ -44,6 +43,8 @@ $ docker run -ti -d \
     --volumes-from apache \
     -p 8000:8000 \
     --name=app docker-symfony2/app bash
+
+$ open http://$(boot2docker ip):8000/
 
 or
 $ bash env/run-on-multiple-container.sh
