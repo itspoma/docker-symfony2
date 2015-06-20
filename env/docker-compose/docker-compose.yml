@@ -1,0 +1,23 @@
+app:
+  build: .
+  command: bash
+  volumes_from:
+    - web
+  tty: true
+
+web:
+  image: tutum/apache-php
+  volumes:
+    - ../../src:/app
+  ports:
+    - "80:80"
+
+mysql:
+  image: mysql:5.7
+  ports:
+    - 3306:3306
+  environment:
+    MYSQL_ROOT_PASSWORD: root
+    MYSQL_DATABASE: testdb
+    MYSQL_USER: symfony
+    MYSQL_PASSWORD: symfonysecret
