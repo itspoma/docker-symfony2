@@ -6,9 +6,18 @@ docker rm -f $(docker ps -a -q)
 docker rmi -f docker-symfony2/single-container
 
 docker build --rm -t docker-symfony2/single-container single-container/
-docker run -p 80:8080 -ti docker-symfony2/single-container bash
 
-echo "navigate your browser to: http://$(boot2docker ip)/"
+# docker run -P -d -ti --name test1 docker-symfony2/single-container
+# docker ps
+# docker exec -ti test1 bash
+# echo "test" > /var/www/symfony/index.html
 
-#$ docker rm -f $(docker ps -a -q)
-#$ docker rmi -f docker-symfony2/single-container
+docker run \
+    --name=test1 \
+    -P \
+    -v $PWD/../src:/var/www/symfony \
+    -ti \
+    -d \
+    docker-symfony2/single-container
+
+docker ps | grep docker-symfony2/single-container

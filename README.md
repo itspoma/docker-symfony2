@@ -49,4 +49,15 @@ $ open http://$(boot2docker ip):8000/
 or
 $ bash env/run-on-multiple-container.sh
 ```
+
+To run a demo Symfony app using Docker Compose:
+
+```bash
+$ cd env/docker-compose/
+$ docker-compose up -d
+```
+
+To install the Symfony into /src directory, follow the next command:
+```bash
+bash$ composer create-project --no-interaction symfony/framework-standard-edition demo "2.6.*"
 ```
