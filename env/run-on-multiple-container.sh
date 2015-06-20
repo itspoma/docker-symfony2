@@ -12,15 +12,23 @@ docker build --rm -t docker-symfony2/app env/multiple-containers/app
 # docker run --name=apache -tid docker-symfony2/apache
 # docker exec -ti apache bash
 
-docker run --name=apache -p 80:8080 -p 9001:9001 -v $PWD/src:/var/www/symfony -ti -d docker-symfony2/apache
-docker run --name=mysql -p 3306:3306 -ti -d docker-symfony2/mysql
+docker exec -ti apache bash
 
-docker run -ti -d \
+docker run --name=apache \
+    -P -ti -d \
+    -v $PWD/src:/var/www/symfony \
+    docker-symfony2/apache
+
+docker run --name=mysql \
+    -P -ti -d \
+    docker-symfony2/mysql
+
+docker run --name=app \
+    -P -ti -d \
     --link apache:apache \
     --link mysql:mysql \
     --volumes-from apache \
-    -p 8000:8000 \
-    --name=app docker-symfony2/app bash
+    docker-symfony2/app
 
 docker exec -ti app bash
 docker exec -ti app symfony demo /var/www/symfony/demo

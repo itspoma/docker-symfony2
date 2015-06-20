@@ -23,6 +23,8 @@ RUN ln -s /etc/apache2/sites-available/app.conf /etc/apache2/sites-enabled/app.c
 RUN ln -sf /dev/stdout /var/log/apache2/access.log \
  && ln -sf /dev/stderr /var/log/apache2/error.log
 
+ADD ./init.sh /var/www/init.sh
+
 EXPOSE 80 8080
 EXPOSE 9001
 
@@ -30,4 +32,4 @@ VOLUME ["/var/www", "/etc/apache2/", "/etc/supervisor/"]
 
 WORKDIR "/var/www"
 
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+CMD ["/bin/bash", "/var/www/init.sh"]
