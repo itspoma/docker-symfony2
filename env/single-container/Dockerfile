@@ -26,12 +26,14 @@ ADD ./demo.conf /etc/httpd/conf.d/demo.conf
 RUN curl -sS https://getcomposer.org/installer | php \
  && mv composer.phar /usr/local/bin/composer
 
+RUN mkdir /tmp/symfony-{cache,logs}
+
 VOLUME ["/var/www/symfony"]
 
 EXPOSE 3306
 EXPOSE 80 8080
 
-# add entrypoint shell script
-ADD ./run.sh /var/www/run.sh
+# add startup shell scripts
+ADD ./init.sh /var/www/init.sh
 
-CMD ["/bin/bash", "/var/www/run.sh"]
+CMD ["/bin/bash", "/var/www/init.sh"]
